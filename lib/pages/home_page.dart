@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:herewego/services/auth_service.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
@@ -11,9 +12,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: const Text('Home'),
+      ),
       body: Center(
-        child: Text("Home Page"),
+        child: FlatButton(
+          onPressed: () {
+            AuthService.signOutUser(context);
+          },
+          color: Colors.red,
+          child: const Text(
+            "Logout",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       ),
     );
   }

@@ -12,6 +12,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   firebase_core:
+  firebase_auth:
+  shared_preferences:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:
