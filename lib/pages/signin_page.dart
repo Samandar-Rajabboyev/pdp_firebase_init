@@ -62,6 +62,7 @@ class _SignInPageState extends State<SignInPage> {
                 const SizedBox(height: 10),
                 TextField(
                   controller: _passwordController,
+                  obscureText: true,
                   decoration: const InputDecoration(hintText: 'Password'),
                 ),
                 const SizedBox(height: 10),
@@ -70,7 +71,7 @@ class _SignInPageState extends State<SignInPage> {
                   height: 45,
                   child: FlatButton(
                     onPressed: _doLogin,
-                    color: Colors.red,
+                    color: Colors.deepOrange,
                     child: const Text(
                       "Sign In",
                       style: TextStyle(color: Colors.white),

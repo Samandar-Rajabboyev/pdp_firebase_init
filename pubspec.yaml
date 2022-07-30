@@ -15,6 +15,7 @@ dependencies:
   firebase_auth:
   shared_preferences:
   fluttertoast:
+  firebase_database:
 
 dev_dependencies:
   flutter_test:
