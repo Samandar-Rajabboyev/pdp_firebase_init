@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Post> items = <Post>[];
   String? userId;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -33,6 +34,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   _apiGetPosts() async {
+    setState(() {
+      isLoading = true;
+    });
     var id = await Prefs.loadUserId() ?? '';
     RTDBService.getPosts(id).then((posts) => {
           _respPosts(posts),
@@ -41,6 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   _respPosts(List<Post> posts) {
     setState(() {
+      isLoading = false;
       items = posts;
     });
   }
@@ -63,14 +68,22 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: FutureBuilder(
-          future: RTDBService.getPosts((userId ?? '')),
-          builder: (context, snp) {
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) => _itemOfPost(items[index]),
-            );
-          }),
+      body: Stack(
+        children: [
+          FutureBuilder(
+              future: RTDBService.getPosts((userId ?? '')),
+              builder: (context, snp) {
+                return ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => _itemOfPost(items[index]),
+                );
+              }),
+          isLoading
+              ? const Positioned(
+                  top: 0, bottom: 0, left: 0, right: 0, child: Center(child: CircularProgressIndicator()))
+              : const SizedBox.shrink(),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddPost,
         backgroundColor: Colors.deepOrange,
@@ -85,10 +98,22 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // #image
+          SizedBox(
+            width: double.infinity,
+            height: 200,
+            child: post.imgUrl != null
+                ? Image.network(post.imgUrl!, fit: BoxFit.cover)
+                : Image.asset("assets/images/ic_default.png", fit: BoxFit.cover),
+          ),
+          const SizedBox(height: 5),
+          // #fullName
           Text('${post.firstName} ${post.lastName}', style: const TextStyle(color: Colors.black, fontSize: 20)),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
+          // #dateName
           Text(post.date, style: const TextStyle(color: Colors.black, fontSize: 16)),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
+          // #contentName
           Text(post.content, style: const TextStyle(color: Colors.black, fontSize: 16)),
         ],
       ),

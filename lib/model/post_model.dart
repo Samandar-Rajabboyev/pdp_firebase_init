@@ -4,20 +4,23 @@ class Post {
   String lastName;
   String content;
   String date;
+  String? imgUrl;
 
   Post(
       {required this.userId,
       required this.firstName,
       required this.lastName,
       required this.content,
-      required this.date});
+      required this.date,
+      required this.imgUrl});
 
   Post.fromJson(Map<String, dynamic> json)
       : userId = json['userId'],
         firstName = json['firstName'],
         lastName = json['lastName'],
         content = json['content'],
-        date = json['date'];
+        date = json['date'],
+        imgUrl = json['imgUrl'];
 
   Map<String, dynamic> toJson() => {
         'userId': userId,
@@ -25,5 +28,6 @@ class Post {
         'lastName': lastName,
         'content': content,
         'date': date,
+        'imgUrl': imgUrl,
       };
 }
